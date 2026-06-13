@@ -38,7 +38,6 @@
             -webkit-font-smoothing: antialiased;
         }
 
-        /* ===== INITIAL LOADING SCREEN ===== */
         .loading-overlay {
             position: fixed;
             inset: 0;
@@ -70,10 +69,7 @@
             color: var(--text-secondary);
             animation: pulse-text 1.5s ease-in-out infinite;
         }
-        @keyframes pulse-text {
-            0%,100%{opacity:0.6;}
-            50%{opacity:1;}
-        }
+        @keyframes pulse-text { 0%,100%{opacity:0.6;} 50%{opacity:1;} }
 
         .app-layout {
             display: grid;
@@ -81,7 +77,6 @@
             height: 100%;
         }
 
-        /* Sidebar */
         .sidebar {
             background: var(--sidebar-bg);
             border-right: 1px solid var(--border);
@@ -127,13 +122,11 @@
             display: flex; align-items: center; justify-content: space-between;
             padding: 8px 10px; border-radius: var(--radius-sm); cursor: pointer;
             font-size: 13px; transition: all var(--transition); gap: 6px; margin-bottom: 2px;
-            position: relative;
         }
         .chat-item:hover { background: rgba(0,0,0,0.04); }
         .chat-item.active { background: var(--accent-light); font-weight: 600; }
         .chat-item-title {
             flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 13px;
-            cursor: pointer;
         }
         .chat-item-title:hover { text-decoration: underline; text-decoration-color: var(--accent); text-underline-offset: 2px; }
         .chat-item-actions {
@@ -149,7 +142,6 @@
         .chat-action-btn.delete:hover { background: #fee2e2; color: #ef4444; }
         .sidebar-footer { padding: 10px 16px; border-top: 1px solid var(--border); font-size: 11px; color: var(--text-secondary); text-align: center; }
 
-        /* Rename Input */
         .rename-input {
             flex: 1;
             padding: 4px 8px;
@@ -162,7 +154,6 @@
             color: var(--text);
         }
 
-        /* Main */
         .main-area { display: flex; flex-direction: column; height: 100%; overflow: hidden; }
         .top-bar {
             display: flex; align-items: center; justify-content: space-between;
@@ -194,7 +185,6 @@
         .tab-content { display: none; flex: 1; overflow: hidden; flex-direction: column; }
         .tab-content.active { display: flex; }
 
-        /* Chat */
         .chat-area { flex: 1; overflow-y: auto; scroll-behavior: smooth; }
         .chat-inner { max-width: 780px; margin: 0 auto; padding: 20px 20px 10px; }
 
@@ -213,14 +203,10 @@
             box-shadow: 0 12px 32px rgba(99,102,241,0.3);
             animation: float 3s ease-in-out infinite;
         }
-        @keyframes float {
-            0%,100%{transform:translateY(0);}
-            50%{transform:translateY(-8px);}
-        }
+        @keyframes float { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-8px);} }
         .welcome-title { font-size: 24px; font-weight: 700; margin-bottom: 6px; }
         .welcome-sub { font-size: 14px; color: var(--text-secondary); max-width: 350px; line-height: 1.5; }
 
-        /* Messages */
         .msg-row {
             display: flex; gap: 10px; padding: 10px 0;
             animation: slideUp 0.35s cubic-bezier(0.16,1,0.3,1);
@@ -256,7 +242,6 @@
             background: transparent; padding: 10px 0;
         }
 
-        /* Typing Indicator */
         .typing-indicator {
             display: none;
             align-items: center;
@@ -282,10 +267,7 @@
         .typing-dot:nth-child(1) { animation-delay: 0s; }
         .typing-dot:nth-child(2) { animation-delay: 0.2s; }
         .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-        @keyframes typingBounce {
-            0%,60%,100% { transform: translateY(0); opacity: 0.3; }
-            30% { transform: translateY(-10px); opacity: 1; }
-        }
+        @keyframes typingBounce { 0%,60%,100%{transform:translateY(0);opacity:0.3;} 30%{transform:translateY(-10px);opacity:1;} }
 
         .streaming::after {
             content: ' ▌';
@@ -295,7 +277,6 @@
         }
         @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0;} }
 
-        /* Markdown */
         .md h1,.md h2,.md h3 { margin: 12px 0 6px; font-weight: 700; }
         .md h1 { font-size: 1.3em; } .md h2 { font-size: 1.15em; } .md h3 { font-size: 1.05em; }
         .md p { margin: 4px 0; }
@@ -319,7 +300,6 @@
         .md th { background: var(--bg); font-weight: 600; }
         .md a { color: var(--accent); }
 
-        /* Code */
         .code-wrap {
             margin: 8px 0; border-radius: var(--radius-sm); overflow: hidden;
             background: var(--code-bg); border: 1px solid #30363d;
@@ -344,7 +324,6 @@
             font-family: 'SF Mono','Monaco','Menlo','Consolas',monospace;
         }
 
-        /* Preview */
         .preview-overlay {
             display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6);
             z-index: 2000; align-items: center; justify-content: center; padding: 20px;
@@ -376,7 +355,6 @@
         .preview-close:hover { background: #fee; border-color: #fecaca; color: #ef4444; }
         .preview-iframe { flex: 1; width: 100%; border: none; background: white; }
 
-        /* TTS */
         .tts-area { flex:1; overflow-y:auto; display:flex; align-items:flex-start; justify-content:center; padding:30px 20px; }
         .tts-card {
             background: var(--surface); border: 1px solid var(--border);
@@ -411,7 +389,6 @@
         .tts-audio { width: 100%; margin-top: 12px; display: none; border-radius: var(--radius-sm); }
         .tts-audio.show { display: block; }
 
-        /* Input */
         .input-bar {
             background: var(--surface); border-top: 1px solid var(--border);
             padding: 12px 20px; flex-shrink: 0;
@@ -430,7 +407,6 @@
         #userInput::placeholder { color: #9ca3af; }
         #userInput:disabled { opacity: 0.4; }
 
-        /* Dropdown */
         .custom-select { position: relative; min-width: 140px; user-select: none; flex-shrink: 0; }
         .select-trigger {
             display: flex; align-items: center; justify-content: space-between;
@@ -511,7 +487,6 @@
     </style>
 </head>
 <body>
-    <!-- ===== INITIAL LOADING ===== -->
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner"></div>
         <div class="loading-text" id="loadingText">Verbinde mit Groq API...</div>
@@ -654,11 +629,9 @@
 
         let chatModels=[], ttsModels=[], selectedChat=null, selectedTTS=null, currentChatId=null, chats={}, abortCtrl=null, streamBubble=null;
 
-        // Loading Screen
         function updateLoading(msg) { loadingText.textContent = msg; }
         function hideLoading() { loadingOverlay.classList.add('hidden'); }
 
-        // Sidebar
         function toggleSidebar(){ sidebar.classList.toggle('open'); sidebarOverlay.classList.toggle('show'); }
         btnMenu.addEventListener('click', toggleSidebar);
         sidebarOverlay.addEventListener('click', toggleSidebar);
@@ -700,31 +673,19 @@
             e.stopPropagation();
             const chat = chats[id];
             if(!chat) return;
-            
             const item = e.target.closest('.chat-item');
             const titleSpan = item.querySelector('.chat-item-title');
-            const currentTitle = chat.title;
-            
             const input = document.createElement('input');
             input.type = 'text';
             input.className = 'rename-input';
-            input.value = currentTitle;
+            input.value = chat.title;
             input.maxLength = 50;
-            
             titleSpan.replaceWith(input);
             input.focus();
             input.select();
-            
-            const saveRename = () => {
-                const newTitle = input.value.trim() || 'Neuer Chat';
-                chat.title = newTitle;
-                renderChats();
-            };
-            
-            input.addEventListener('blur', saveRename);
-            input.addEventListener('keypress', (e) => {
-                if(e.key === 'Enter') { input.blur(); }
-            });
+            const save = () => { chat.title = input.value.trim() || 'Neuer Chat'; renderChats(); };
+            input.addEventListener('blur', save);
+            input.addEventListener('keypress', (e) => { if(e.key==='Enter') input.blur(); });
         }
 
         function renderChats(){
@@ -736,31 +697,25 @@
                     if(e.target.closest('.chat-action-btn') || e.target.classList.contains('rename-input')) return;
                     switchChat(c.id);
                 };
-                
                 const span = document.createElement('span');
                 span.className = 'chat-item-title';
                 span.textContent = c.title;
                 span.ondblclick = (e) => renameChat(c.id, e);
                 span.title = 'Doppelklick zum Umbenennen';
-                
                 const actions = document.createElement('div');
                 actions.className = 'chat-item-actions';
-                
                 const renameBtn = document.createElement('button');
                 renameBtn.className = 'chat-action-btn';
                 renameBtn.textContent = '✏️';
                 renameBtn.title = 'Umbenennen';
                 renameBtn.onclick = (e) => renameChat(c.id, e);
-                
                 const delBtn = document.createElement('button');
                 delBtn.className = 'chat-action-btn delete';
                 delBtn.textContent = '🗑';
                 delBtn.title = 'Löschen';
                 delBtn.onclick = (e) => deleteChat(c.id, e);
-                
                 actions.appendChild(renameBtn);
                 actions.appendChild(delBtn);
-                
                 div.appendChild(span);
                 div.appendChild(actions);
                 chatList.appendChild(div);
@@ -768,7 +723,6 @@
         }
         btnNewChat.addEventListener('click', newChat);
 
-        // Dropdown
         function initSelect(triggerId, menuId, textId, cb){
             const trigger = $(triggerId), menu = $(menuId), textEl = $(textId);
             trigger.addEventListener('click',(e)=>{
@@ -824,47 +778,75 @@
             });
         });
 
+        // ============ MARKDOWN MIT HTML-VORSCHAU-FIX ============
         function parseMD(text){
             if(!text)return'';
-            let html=text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-            html=html.replace(/```(\w*)\n?([\s\S]*?)```/g,(_,lang,code)=>{
-                const trimmed=code.trim(), lc=lang?lang.toLowerCase():'';
-                const enc=btoa(unescape(encodeURIComponent(trimmed)));
-                let btns=`<button class="code-btn copy-btn" data-code="${enc}">📋 Kopieren</button>`;
-                if(lc==='html'||lc==='htm')btns=`<button class="code-btn preview-btn" data-code="${enc}">🌐 Vorschau</button>`+btns;
-                return`<div class="code-wrap"><div class="code-header"><span class="code-lang">${lang||'code'}</span><div class="code-btns">${btns}</div></div><pre><code class="language-${lc}">${trimmed}</code></pre></div>`;
+            // Schritt 1: HTML escapen
+            let html = text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+            
+            // Schritt 2: Code-Blöcke parsen - ORIGINAL-Code unescaped speichern!
+            html = html.replace(/```(\w*)\n?([\s\S]*?)```/g, (_, lang, code) => {
+                const trimmed = code.trim();
+                const lc = lang ? lang.toLowerCase() : '';
+                // Escaping rückgängig machen für data-code
+                const originalCode = trimmed.replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&#39;/g,"'");
+                const enc = btoa(unescape(encodeURIComponent(originalCode)));
+                let btns = `<button class="code-btn copy-btn" data-code="${enc}">📋 Kopieren</button>`;
+                if(lc==='html'||lc==='htm') btns = `<button class="code-btn preview-btn" data-code="${enc}">🌐 Vorschau</button>` + btns;
+                return `<div class="code-wrap"><div class="code-header"><span class="code-lang">${lang||'code'}</span><div class="code-btns">${btns}</div></div><pre><code class="language-${lc}">${trimmed}</code></pre></div>`;
             });
-            html=html.replace(/((?:^\|.+\|\n)+)/gm,(match)=>{
-                const lines=match.trim().split('\n');
-                if(lines.length<2||!/^\|[\s\-:]+\|/.test(lines[1]))return match;
-                let tbl='<table>';
+            
+            // Schritt 3: Tabellen
+            html = html.replace(/((?:^\|.+\|\n)+)/gm, (match) => {
+                const lines = match.trim().split('\n');
+                if(lines.length<2||!/^\|[\s\-:]+\|/.test(lines[1])) return match;
+                let tbl = '<table>';
                 lines.forEach((line,i)=>{
                     if(i===0){tbl+='<thead><tr>';line.split('|').filter(c=>c.trim()).forEach(c=>tbl+='<th>'+c.trim()+'</th>');tbl+='</tr></thead><tbody>';}
                     else if(i>1){tbl+='<tr>';line.split('|').filter(c=>c.trim()).forEach(c=>tbl+='<td>'+c.trim()+'</td>');tbl+='</tr>';}
                 });
                 return tbl+'</tbody></table>';
             });
-            html=html.replace(/`([^`]+)`/g,'<code>$1</code>');
-            html=html.replace(/^### (.+)$/gm,'<h3>$1</h3>');
-            html=html.replace(/^## (.+)$/gm,'<h2>$1</h2>');
-            html=html.replace(/^# (.+)$/gm,'<h1>$1</h1>');
-            html=html.replace(/\*\*\*(.+?)\*\*\*/g,'<strong><em>$1</em></strong>');
-            html=html.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
-            html=html.replace(/\*(.+?)\*/g,'<em>$1</em>');
-            html=html.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank">$1</a>');
-            html=html.replace(/^&gt; (.+)$/gm,'<blockquote>$1</blockquote>');
-            html=html.replace(/^---$/gm,'<hr>');
-            html=html.replace(/^[\*\-] (.+)$/gm,'<li>$1</li>');
-            html=html.replace(/\n\n+/g,'</p><p>');
-            html='<p>'+html+'</p>';
-            html=html.replace(/<p>\s*<\/p>/g,'');
-            ['h1','h2','h3','pre','ul','ol','blockquote','table','hr','div'].forEach(t=>{html=html.replace(new RegExp('<p><'+t,'g'),'<'+t);html=html.replace(new RegExp('</'+t+'></p>','g'),'</'+t+'>');});
+            
+            // Schritt 4: Restliches Markdown
+            html = html.replace(/`([^`]+)`/g,'<code>$1</code>');
+            html = html.replace(/^### (.+)$/gm,'<h3>$1</h3>');
+            html = html.replace(/^## (.+)$/gm,'<h2>$1</h2>');
+            html = html.replace(/^# (.+)$/gm,'<h1>$1</h1>');
+            html = html.replace(/\*\*\*(.+?)\*\*\*/g,'<strong><em>$1</em></strong>');
+            html = html.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');
+            html = html.replace(/\*(.+?)\*/g,'<em>$1</em>');
+            html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g,'<a href="$2" target="_blank">$1</a>');
+            html = html.replace(/^&gt; (.+)$/gm,'<blockquote>$1</blockquote>');
+            html = html.replace(/^---$/gm,'<hr>');
+            html = html.replace(/^[\*\-] (.+)$/gm,'<li>$1</li>');
+            html = html.replace(/\n\n+/g,'</p><p>');
+            html = '<p>'+html+'</p>';
+            html = html.replace(/<p>\s*<\/p>/g,'');
+            ['h1','h2','h3','pre','ul','ol','blockquote','table','hr','div'].forEach(t=>{
+                html = html.replace(new RegExp('<p><'+t,'g'),'<'+t);
+                html = html.replace(new RegExp('</'+t+'></p>','g'),'</'+t+'>');
+            });
             return html;
         }
 
         function attachCode(container){
-            container.querySelectorAll('.copy-btn').forEach(b=>{b.onclick=function(){const code=decodeURIComponent(escape(atob(this.dataset.code)));navigator.clipboard.writeText(code).then(()=>{this.textContent='✅ Kopiert!';this.classList.add('copied');setTimeout(()=>{this.textContent='📋 Kopieren';this.classList.remove('copied');},2000);});};});
-            container.querySelectorAll('.preview-btn').forEach(b=>{b.onclick=function(){const code=decodeURIComponent(escape(atob(this.dataset.code)));previewIframe.srcdoc=code;previewOverlay.classList.add('show');};});
+            container.querySelectorAll('.copy-btn').forEach(b=>{
+                b.onclick = function(){
+                    const code = decodeURIComponent(escape(atob(this.dataset.code)));
+                    navigator.clipboard.writeText(code).then(()=>{
+                        this.textContent='✅ Kopiert!'; this.classList.add('copied');
+                        setTimeout(()=>{this.textContent='📋 Kopieren'; this.classList.remove('copied');},2000);
+                    });
+                };
+            });
+            container.querySelectorAll('.preview-btn').forEach(b=>{
+                b.onclick = function(){
+                    const code = decodeURIComponent(escape(atob(this.dataset.code)));
+                    previewIframe.srcdoc = code;
+                    previewOverlay.classList.add('show');
+                };
+            });
         }
 
         previewClose.addEventListener('click',()=>previewOverlay.classList.remove('show'));
@@ -913,14 +895,11 @@
                 const r=await fetch(`${BASE}/models`,{headers:{'Authorization':`Bearer ${API_KEY}`,'Content-Type':'application/json'}});
                 if(r.ok){const d=await r.json();if(d.data)chatModels=d.data.filter(m=>!m.id.toLowerCase().includes('whisper')).map(m=>({id:m.id,owned_by:m.owned_by||'other',created:m.created||0})).sort((a,b)=>b.created-a.created);}
             }catch(e){console.error('Chat-Modelle Fehler:',e);}
-            
             updateLoading('Erkenne TTS-Modelle...');
             ttsModels=await discoverTTS();
-            
             updateLoading('Bereite Oberfläche vor...');
             buildMenu(chatSel.menu,chatModels,'owned_by',chatSel.cb,null);
             buildMenu(ttsSel.menu,ttsModels,'owned_by',ttsSel.cb,null);
-            
             if(chatModels.length){
                 selectedChat=chatModels[0].id;
                 $('chatSelectText').textContent=fmtName(chatModels[0].id);
@@ -934,7 +913,6 @@
                 $('ttsSelectText').textContent=fmtName(ttsModels[0].id);
                 $('ttsSelectText').classList.remove('placeholder');
             }
-            
             updateLoading('Fertig!');
             setTimeout(hideLoading, 400);
         }
