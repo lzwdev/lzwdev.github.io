@@ -79,36 +79,12 @@
         .streaming::after{content:' ▌';animation:blink 1s step-end infinite;color:var(--accent)}
         @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
 
-        /* ===== KOMPAKTE TOKEN-ANZEIGE ===== */
-        .token-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            padding: 3px 8px;
-            background: var(--surface);
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            font-size: 10px;
-            font-weight: 500;
-            color: var(--text2);
-            transition: all 0.3s ease;
-            white-space: nowrap;
-            flex-shrink: 0;
-        }
-        .token-pill .dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            transition: background 0.3s;
-        }
-        .token-pill .dot.low { background: #22c55e; }
-        .token-pill .dot.medium { background: #f59e0b; }
-        .token-pill .dot.high { background: #ef4444; }
-        .token-pill .num {
-            font-weight: 700;
-            color: var(--text);
-            font-variant-numeric: tabular-nums;
-        }
+        /* Token Pill */
+        .token-pill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;background:var(--surface);border:1px solid var(--border);border-radius:20px;font-size:10px;font-weight:500;color:var(--text2);transition:all .3s;white-space:nowrap;flex-shrink:0}
+        .token-pill .bar-wrap{width:36px;height:5px;background:var(--bg);border-radius:3px;overflow:hidden}
+        .token-pill .bar-fill{height:100%;border-radius:3px;transition:width .5s,background .3s}
+        .bar-fill.low{background:#22c55e}.bar-fill.medium{background:#f59e0b}.bar-fill.high{background:#ef4444}
+        .token-pill .num{font-weight:700;color:var(--text);font-variant-numeric:tabular-nums}
 
         .md h1,.md h2,.md h3{margin:12px 0 6px;font-weight:700}.md h1{font-size:1.3em}.md h2{font-size:1.15em}.md h3{font-size:1.05em}.md p{margin:4px 0}.md ul,.md ol{margin:4px 0;padding-left:20px}.md li{margin:2px 0}.md strong{font-weight:700}.md em{font-style:italic}
         .md code{background:rgba(0,0,0,.05);padding:2px 5px;border-radius:4px;font-size:.88em;font-family:'SF Mono',Monaco,Menlo,Consolas,monospace}
@@ -158,25 +134,38 @@
         .model-hint{font-size:10px;color:var(--text2);text-align:right;margin-top:4px;max-width:780px;margin-left:auto;margin-right:auto;display:flex;justify-content:flex-end;align-items:center;gap:6px}
         .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:199}
 
-        @media(min-width:768px) and (max-width:1023px){.app-layout{grid-template-columns:240px 1fr}.chat-inner,.input-row,.model-hint{max-width:100%}.chat-inner{padding:16px}.msg-body{max-width:88%}.custom-select{min-width:120px}}
+        /* ===== MOBILE (< 768px) ===== */
         @media(max-width:767px){
             .app-layout{grid-template-columns:1fr}
             .sidebar{position:fixed;left:-280px;top:0;bottom:0;width:280px;z-index:200;transition:left .3s}.sidebar.open{left:0}.sidebar-overlay.show{display:block}
-            .btn-menu{display:block}.chat-inner,.input-row,.model-hint{max-width:100%}.chat-inner{padding:10px}
-            .input-bar{padding:8px 10px}.input-row{gap:6px;flex-wrap:wrap}.msg-body{max-width:92%}.msg-bubble{font-size:13px}
-            .top-bar{padding:0 10px}.tab-switcher{display:none}.custom-select{min-width:100px}.select-trigger{padding:7px 8px;font-size:11px}
-            .select-menu{min-width:160px;left:auto;right:0}.tts-row{flex-direction:column}.tts-row .custom-select,.tts-row .voice-picker,.tts-row .btn-tts{width:100%}.btn-tts{text-align:center}
+            .btn-menu{display:block}
+            .chat-inner,.input-row,.model-hint{max-width:100%}.chat-inner{padding:10px}
+            .input-bar{padding:8px 10px}
+            .input-row{flex-wrap:wrap;gap:6px}
+            /* Dropdown OBEN auf Mobile */
+            .input-row .custom-select{order:-1;width:100%;min-width:100%}
+            .input-row .input-wrap{order:0;width:100%}
+            .input-row .btn-send{order:1}
+            .msg-body{max-width:92%}.msg-bubble{font-size:13px}
+            .top-bar{padding:0 10px}.tab-switcher{display:none}
+            .custom-select{min-width:100%}.select-trigger{padding:7px 8px;font-size:11px}
+            .select-menu{min-width:160px;left:auto;right:0}
+            .tts-row{flex-direction:column}.tts-row .custom-select,.tts-row .voice-picker,.tts-row .btn-tts{width:100%}.btn-tts{text-align:center}
             .preview-box{width:98%;height:92%}.welcome-title{font-size:18px}.code-wrap pre{font-size:.7em;padding:8px 10px}
+        }
+
+        @media(min-width:768px) and (max-width:1023px){
+            .app-layout{grid-template-columns:240px 1fr}.chat-inner,.input-row,.model-hint{max-width:100%}.chat-inner{padding:16px}.msg-body{max-width:88%}.custom-select{min-width:120px}
         }
     </style>
 </head>
 <body>
-    <div class="loading-overlay" id="loadingOverlay"><div class="loading-spinner"></div><div class="loading-text" id="loadingText">Verbinde mit Groq API...</div></div>
+    <div class="loading-overlay" id="loadingOverlay"><div class="loading-spinner"></div><div class="loading-text" id="loadingText">Verbinde mit Server...</div></div>
     <div class="app-layout">
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
         <aside class="sidebar" id="sidebar">
             <div class="sidebar-header"><div class="logo-area"><div class="logo-icon">✨</div><span class="logo-text">Groq AI</span></div><button class="btn-new-chat" id="btnNewChat">➕ Neuer Chat</button></div>
-            <div class="chat-list" id="chatList"></div><div class="sidebar-footer">Groq AI Chat</div>
+            <div class="chat-list" id="chatList"></div><div class="sidebar-footer">Powered by Groq</div>
         </aside>
         <main class="main-area">
             <header class="top-bar"><div class="top-bar-left"><button class="btn-menu" id="btnMenu">☰</button><div class="tab-switcher"><button class="tab-btn active" data-tab="chat">💬 Chat</button><button class="tab-btn" data-tab="tts">🔊 TTS</button></div></div><button class="btn-stop" id="btnStop">⏹ Stop</button></header>
@@ -184,11 +173,11 @@
                 <div class="chat-area" id="chatArea"><div class="chat-inner" id="chatInner"><div class="welcome" id="welcomeScreen"><div class="welcome-icon">✨</div><div class="welcome-title">Wie kann ich dir helfen?</div><div class="welcome-sub">Stell eine Frage und die KI antwortet live.</div></div><div class="typing-indicator" id="typingIndicator"><div class="msg-avatar" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">✨</div><div class="typing-dots"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div></div></div></div>
                 <div class="input-bar">
                     <div class="input-row">
-                        <div class="input-wrap"><textarea id="userInput" placeholder="Schreibe eine Nachricht..." rows="1" disabled></textarea></div>
                         <div class="custom-select" id="chatModelDropdown"><div class="select-trigger" id="chatSelectTrigger"><span class="select-text placeholder" id="chatSelectText">Modell</span><span class="select-arrow">▼</span></div><div class="select-menu" id="chatSelectMenu"></div></div>
+                        <div class="input-wrap"><textarea id="userInput" placeholder="Nachricht..." rows="1" disabled></textarea></div>
                         <button class="btn-send" id="btnSend" disabled><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg></button>
                     </div>
-                    <div class="model-hint"><span id="modelName"></span><span class="token-pill" id="tokenPill" style="display:none"><span class="dot low" id="tokenDot"></span><span class="num" id="tokenNum">0</span><span>/</span><span id="tokenMax">4K</span></span></div>
+                    <div class="model-hint"><span id="modelName"></span><span class="token-pill" id="tokenPill" style="display:none"><div class="bar-wrap"><div class="bar-fill low" id="tokenBar" style="width:0%"></div></div><span class="num" id="tokenNum">0</span><span>/</span><span id="tokenMax">4K</span></span></div>
                 </div>
             </div>
             <div class="tab-content" id="tabTTS"><div class="tts-area"><div class="tts-card"><h3>🔊 Text zu Sprache</h3><div class="tts-status loading" id="ttsStatus">🔍 Erkenne Modelle...</div><textarea id="ttsInput" placeholder="Text eingeben..."></textarea><div class="tts-row"><div class="custom-select" id="ttsModelDropdown" style="flex:1"><div class="select-trigger" id="ttsSelectTrigger"><span class="select-text placeholder" id="ttsSelectText">Modell</span><span class="select-arrow">▼</span></div><div class="select-menu" id="ttsSelectMenu"></div></div><select class="voice-picker" id="voicePicker"><option value="autumn">Autumn</option><option value="diana">Diana</option><option value="hannah">Hannah</option><option value="austin">Austin</option><option value="daniel">Daniel</option><option value="troy">Troy</option></select><button class="btn-tts" id="btnTTS">🎤 Generieren</button></div><audio class="tts-audio" id="ttsAudio" controls></audio></div></div></div>
@@ -197,14 +186,14 @@
     <div class="preview-overlay" id="previewOverlay"><div class="preview-box"><div class="preview-top"><h3>🌐 HTML Vorschau</h3><div class="preview-top-btns"><button class="preview-btn-sm" id="previewRefresh">🔄 Neu laden</button><button class="preview-close" id="previewClose">✕</button></div></div><iframe class="preview-iframe" id="previewIframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups"></iframe></div></div>
 
     <script>
-        const API_KEY = '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';
-        const BASE = 'https://api.groq.com/openai/v1';
+        // KEIN API-KEY im Code! Alles läuft über den Server-Proxy
+        const BASE = '/api/groq';
         const $ = id => document.getElementById(id);
 
         const loadingOverlay=$('loadingOverlay'), loadingText=$('loadingText'), chatArea=$('chatArea'), chatInner=$('chatInner');
         const welcomeScreen=$('welcomeScreen'), typingIndicator=$('typingIndicator'), userInput=$('userInput');
         const btnSend=$('btnSend'), btnStop=$('btnStop'), modelName=$('modelName');
-        const tokenPill=$('tokenPill'), tokenNum=$('tokenNum'), tokenMax=$('tokenMax'), tokenDot=$('tokenDot');
+        const tokenPill=$('tokenPill'), tokenNum=$('tokenNum'), tokenMax=$('tokenMax'), tokenBar=$('tokenBar');
         const ttsInput=$('ttsInput'), btnTTS=$('btnTTS'), ttsAudio=$('ttsAudio'), ttsStatus=$('ttsStatus'), voicePicker=$('voicePicker');
         const chatList=$('chatList'), btnNewChat=$('btnNewChat'), btnMenu=$('btnMenu'), sidebar=$('sidebar'), sidebarOverlay=$('sidebarOverlay');
         const previewOverlay=$('previewOverlay'), previewIframe=$('previewIframe'), previewClose=$('previewClose'), previewRefresh=$('previewRefresh');
@@ -225,12 +214,9 @@
         function formatMax(m){return m>=1000?(m/1000).toFixed(0)+'K':m}
 
         function updateTokenDisplay(used, max) {
-            tokenPill.style.display = 'inline-flex';
-            tokenNum.textContent = used.toLocaleString();
-            tokenMax.textContent = formatMax(max);
-            const pct = Math.min(Math.round((used / max) * 100), 100);
-            tokenDot.className = 'dot ' + (pct > 85 ? 'high' : pct > 60 ? 'medium' : 'low');
-            tokenPill.title = `${pct}% des Token-Limits verbraucht`;
+            tokenPill.style.display='inline-flex';tokenNum.textContent=used.toLocaleString();
+            tokenMax.textContent=formatMax(max);const pct=Math.min(Math.round((used/max)*100),100);
+            tokenBar.style.width=pct+'%';tokenBar.className='bar-fill '+(pct>85?'high':pct>60?'medium':'low');
         }
 
         function toggleSidebar(){sidebar.classList.toggle('open');sidebarOverlay.classList.toggle('show')}
@@ -240,7 +226,7 @@
         function switchChat(id){currentChatId=id;const c=chats[id];if(!c)return;chatInner.innerHTML='';chatInner.appendChild(typingIndicator);welcomeScreen.style.display='none';typingIndicator.classList.remove('active');c.messages.forEach(m=>renderMsg(m.role,m.content,m.modelId));chatArea.scrollTop=chatArea.scrollHeight;renderChats()}
         function deleteChat(id,e){e.stopPropagation();if(confirm('Chat löschen?')){delete chats[id];if(currentChatId===id){const k=Object.keys(chats);if(k.length)switchChat(k[0]);else{currentChatId=null;chatInner.innerHTML='';chatInner.appendChild(typingIndicator);typingIndicator.classList.remove('active');welcomeScreen.style.display='flex'}}renderChats()}}
         function renameChat(id,e){e.stopPropagation();const chat=chats[id];if(!chat)return;const item=e.target.closest('.chat-item');const s=item.querySelector('.chat-item-title');const inp=document.createElement('input');inp.type='text';inp.className='rename-input';inp.value=chat.title;inp.maxLength=50;s.replaceWith(inp);inp.focus();inp.select();const save=()=>{chat.title=inp.value.trim()||'Neuer Chat';renderChats()};inp.addEventListener('blur',save);inp.addEventListener('keypress',e=>{if(e.key==='Enter')inp.blur()})}
-        function renderChats(){chatList.innerHTML='';Object.values(chats).sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt)).forEach(c=>{const div=document.createElement('div');div.className='chat-item'+(c.id===currentChatId?' active':'');div.onclick=e=>{if(e.target.closest('.chat-action-btn')||e.target.classList.contains('rename-input'))return;switchChat(c.id)};const span=document.createElement('span');span.className='chat-item-title';span.textContent=c.title;span.ondblclick=e=>renameChat(c.id,e);span.title='Doppelklick = Umbenennen';const acts=document.createElement('div');acts.className='chat-item-actions';const rb=document.createElement('button');rb.className='chat-action-btn';rb.textContent='✏️';rb.title='Umbenennen';rb.onclick=e=>renameChat(c.id,e);const db=document.createElement('button');db.className='chat-action-btn delete';db.textContent='🗑';db.title='Löschen';db.onclick=e=>deleteChat(c.id,e);acts.appendChild(rb);acts.appendChild(db);div.appendChild(span);div.appendChild(acts);chatList.appendChild(div)})}
+        function renderChats(){chatList.innerHTML='';Object.values(chats).sort((a,b)=>new Date(b.createdAt)-new Date(a.createdAt)).forEach(c=>{const div=document.createElement('div');div.className='chat-item'+(c.id===currentChatId?' active':'');div.onclick=e=>{if(e.target.closest('.chat-action-btn')||e.target.classList.contains('rename-input'))return;switchChat(c.id)};const span=document.createElement('span');span.className='chat-item-title';span.textContent=c.title;span.ondblclick=e=>renameChat(c.id,e);span.title='Doppelklick = Umbenennen';const acts=document.createElement('div');acts.className='chat-item-actions';const rb=document.createElement('button');rb.className='chat-action-btn';rb.textContent='✏️';rb.onclick=e=>renameChat(c.id,e);const db=document.createElement('button');db.className='chat-action-btn delete';db.textContent='🗑';db.onclick=e=>deleteChat(c.id,e);acts.appendChild(rb);acts.appendChild(db);div.appendChild(span);div.appendChild(acts);chatList.appendChild(div)})}
         btnNewChat.addEventListener('click',newChat);
 
         function initSelect(tid,mid,xid,cb){const t=$(tid),m=$(mid),x=$(xid);t.addEventListener('click',e=>{e.stopPropagation();document.querySelectorAll('.select-menu.show').forEach(m=>m.classList.remove('show'));document.querySelectorAll('.select-trigger.open').forEach(t=>t.classList.remove('open'));m.classList.add('show');t.classList.add('open')});return{trigger:t,menu:m,textEl:x,cb}}
@@ -271,7 +257,7 @@
             abortCtrl=new AbortController();streamBubble=bubble;let full='',total=0,chars=0;
             const max=MODEL_LIMITS[selectedChat]||4096;
             try{
-                const resp=await fetch(`${BASE}/chat/completions`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${API_KEY}`},body:JSON.stringify({model:selectedChat,messages,temperature:.7,max_tokens:max,stream:true,stream_options:{include_usage:true}}),signal:abortCtrl.signal});
+                const resp=await fetch(`${BASE}/chat/completions`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:selectedChat,messages,temperature:.7,max_tokens:max,stream:true,stream_options:{include_usage:true}}),signal:abortCtrl.signal});
                 if(!resp.ok){const e=await resp.json().catch(()=>({}));throw new Error(e.error?.message||`HTTP ${resp.status}`)}
                 const reader=resp.body.getReader();const dec=new TextDecoder();let buf='';
                 while(true){const{done,value}=await reader.read();if(done)break;buf+=dec.decode(value,{stream:true});const lines=buf.split('\n');buf=lines.pop()||'';for(const line of lines){const t=line.trim();if(!t||!t.startsWith('data: '))continue;const d=t.slice(6);if(d==='[DONE]')continue;try{const json=JSON.parse(d);const delta=json.choices?.[0]?.delta?.content;if(delta){full+=delta;chars=full.length;bubble.textContent=full;bubble.classList.add('streaming');chatArea.scrollTop=chatArea.scrollHeight}if(json.usage?.total_tokens)total=json.usage.total_tokens}catch(e){}}}
@@ -287,16 +273,16 @@
             let all=[];try{const r=await fetch(`${BASE}/models`,{headers:{'Authorization':`Bearer ${API_KEY}`}});if(r.ok){const d=await r.json();all=d.data||[]}}catch(e){}
             const cand=new Set();all.forEach(m=>cand.add(m.id));['playai-tts','playai-tts-arabic'].forEach(m=>cand.add(m));
             const found=[];const arr=[...cand];
-            for(let i=0;i<arr.length;i++){ttsStatus.textContent=`🔍 Teste (${i+1}/${arr.length}): ${arr[i].substring(0,30)}...`;try{const r=await fetch(`${BASE}/audio/speech`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${API_KEY}`},body:JSON.stringify({model:arr[i],input:'Test.',voice:'autumn',response_format:'wav'})});if(r.ok||r.status===422||r.status===400)found.push({id:arr[i],owned_by:getOwner(arr[i]),created:Date.now()/1000})}catch(e){}}
+            for(let i=0;i<arr.length;i++){ttsStatus.textContent=`🔍 Teste (${i+1}/${arr.length}): ${arr[i].substring(0,30)}...`;try{const r=await fetch(`${BASE}/audio/speech`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:arr[i],input:'Test.',voice:'autumn',response_format:'wav'})});if(r.ok||r.status===422||r.status===400)found.push({id:arr[i],owned_by:getOwner(arr[i]),created:Date.now()/1000})}catch(e){}}
             ttsStatus.className=found.length?'tts-status success':'tts-status error';ttsStatus.textContent=found.length?`✅ ${found.length} TTS-Modell(e)`:'❌ Keine TTS-Modelle';return found;
         }
         function getOwner(id){const i=id.toLowerCase();if(i.includes('canopylabs')||i.includes('orpheus'))return'canopylabs';if(i.includes('playai'))return'playai';return'other'}
 
         async function init(){
-            updateLoading('Lade Modelle...');
-            try{const r=await fetch(`${BASE}/models`,{headers:{'Authorization':`Bearer ${API_KEY}`,'Content-Type':'application/json'}});if(r.ok){const d=await r.json();if(d.data)chatModels=d.data.filter(m=>!m.id.toLowerCase().includes('whisper')).map(m=>({id:m.id,owned_by:m.owned_by||'other',created:m.created||0})).sort((a,b)=>b.created-a.created)}}catch(e){}
+            updateLoading('Lade Modelle vom Server...');
+            try{const r=await fetch(`${BASE}/models`,{headers:{'Content-Type':'application/json'}});if(r.ok){const d=await r.json();if(d.data)chatModels=d.data.filter(m=>!m.id.toLowerCase().includes('whisper')).map(m=>({id:m.id,owned_by:m.owned_by||'other',created:m.created||0})).sort((a,b)=>b.created-a.created)}}catch(e){}
             updateLoading('Erkenne TTS...');ttsModels=await discoverTTS();
-            updateLoading('Fertig...');buildMenu(chatSel.menu,chatModels,'owned_by',chatSel.cb,null);buildMenu(ttsSel.menu,ttsModels,'owned_by',ttsSel.cb,null);
+            updateLoading('Bereit...');buildMenu(chatSel.menu,chatModels,'owned_by',chatSel.cb,null);buildMenu(ttsSel.menu,ttsModels,'owned_by',ttsSel.cb,null);
             if(chatModels.length){selectedChat=chatModels[0].id;$('chatSelectText').textContent=fmtName(chatModels[0].id);$('chatSelectText').classList.remove('placeholder');userInput.disabled=false;btnSend.disabled=false;const max=MODEL_LIMITS[selectedChat]||4096;modelName.textContent=fmtName(chatModels[0].id);updateTokenDisplay(0,max);newChat();userInput.focus()}
             if(ttsModels.length){selectedTTS=ttsModels[0].id;$('ttsSelectText').textContent=fmtName(ttsModels[0].id);$('ttsSelectText').classList.remove('placeholder')}
             setTimeout(hideLoading,400);
@@ -328,7 +314,7 @@
         async function generateTTS(){
             const text=ttsInput.value.trim();if(!text){ttsStatus.className='tts-status error';ttsStatus.textContent='❌ Text eingeben';return}if(!selectedTTS){ttsStatus.className='tts-status error';ttsStatus.textContent='❌ Kein Modell';return}
             btnTTS.disabled=true;btnTTS.textContent='⏳...';ttsAudio.classList.remove('show');ttsStatus.className='tts-status loading';ttsStatus.textContent='🎤 Generiere...';
-            try{const r=await fetch(`${BASE}/audio/speech`,{method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${API_KEY}`},body:JSON.stringify({model:selectedTTS,input:text,voice:voicePicker.value,response_format:'wav'})});if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error?.message||'HTTP '+r.status)}ttsAudio.src=URL.createObjectURL(await r.blob());ttsAudio.classList.add('show');ttsAudio.play().catch(()=>{});ttsStatus.className='tts-status success';ttsStatus.textContent='✅ Fertig!'}
+            try{const r=await fetch(`${BASE}/audio/speech`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({model:selectedTTS,input:text,voice:voicePicker.value,response_format:'wav'})});if(!r.ok){const e=await r.json().catch(()=>({}));throw new Error(e.error?.message||'HTTP '+r.status)}ttsAudio.src=URL.createObjectURL(await r.blob());ttsAudio.classList.add('show');ttsAudio.play().catch(()=>{});ttsStatus.className='tts-status success';ttsStatus.textContent='✅ Fertig!'}
             catch(e){ttsStatus.className='tts-status error';ttsStatus.textContent='❌ '+e.message}
             finally{btnTTS.disabled=false;btnTTS.textContent='🎤 Generieren'}
         }
