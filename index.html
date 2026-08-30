@@ -81,12 +81,80 @@
             to { transform: rotate(360deg); }
         }
 
+        @keyframes countUp {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         .fade-in-up {
             animation: fadeInUp 0.6s ease-out;
         }
 
         .fade-in {
             animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Status Bar */
+        .status-bar {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 15px 20px;
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 15px;
+            background: var(--bg-primary);
+            border-radius: 20px;
+            border: 1px solid var(--border);
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        .status-dot.online {
+            background: var(--success);
+            box-shadow: 0 0 10px var(--success);
+        }
+
+        .status-dot.offline {
+            background: var(--text-secondary);
+        }
+
+        .rate-limit-bar {
+            width: 100%;
+            height: 6px;
+            background: var(--bg-tertiary);
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .rate-limit-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), var(--warning), var(--danger));
+            border-radius: 3px;
+            transition: width 0.5s ease;
         }
 
         /* Header */
@@ -162,7 +230,7 @@
             border: 1px solid var(--border);
             transition: all 0.3s;
             cursor: pointer;
-            animation: fadeInUp 0.6s ease-out;
+            animation: countUp 0.6s ease-out;
         }
 
         .stat-item:hover {
@@ -185,7 +253,6 @@
         }
 
         .section:hover {
-            border-color: var(--border);
             box-shadow: 0 5px 20px rgba(0,0,0,0.2);
         }
 
@@ -222,12 +289,6 @@
             color: white;
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(88,166,255,0.3);
-        }
-
-        .btn.active {
-            background: var(--accent);
-            border-color: var(--accent);
-            color: white;
         }
 
         /* Horizontal Scroll Container */
@@ -270,14 +331,6 @@
             animation: fadeIn 0.5s ease-out;
         }
 
-        .repo-grid.grid-view {
-            display: grid;
-        }
-
-        .repo-grid.list-view {
-            display: block;
-        }
-
         /* Repo Cards */
         .repo-card {
             background: var(--bg-primary);
@@ -310,33 +363,6 @@
             transform: translateY(-5px);
             border-color: var(--accent);
             box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-        }
-
-        .repo-card h3 {
-            color: var(--accent);
-            font-size: 18px;
-            margin-bottom: 10px;
-            transition: color 0.3s;
-        }
-
-        .repo-card:hover h3 {
-            color: #79c0ff;
-        }
-
-        /* Language Badge */
-        .language-badge {
-            display: inline-flex;
-            align-items: center;
-            padding: 4px 10px;
-            border-radius: 15px;
-            background: var(--bg-tertiary);
-            font-size: 12px;
-            transition: all 0.3s;
-        }
-
-        .language-badge:hover {
-            background: var(--accent);
-            color: white;
         }
 
         /* Search Bar */
@@ -423,6 +449,11 @@
                 min-width: 280px;
                 max-width: 280px;
             }
+            
+            .status-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
         }
     </style>
 </head>
@@ -438,16 +469,25 @@
         const USERNAME = 'lzwdev';
         let allRepos = [];
         let activeLanguage = 'all';
-        let viewMode = 'scroll'; // 'scroll' oder 'grid'
+        let viewMode = 'scroll';
+        let rateLimitData = null;
 
         async function fetchGitHubData() {
             const container = document.getElementById('app');
 
             try {
+                // Profil abrufen
                 const profileRes = await fetch(`https://api.github.com/users/${USERNAME}`);
                 if (!profileRes.ok) throw new Error(`Profil nicht gefunden (${profileRes.status})`);
                 const profile = await profileRes.json();
 
+                // Rate Limit abrufen
+                const rateLimitRes = await fetch('https://api.github.com/rate_limit');
+                if (rateLimitRes.ok) {
+                    rateLimitData = await rateLimitRes.json();
+                }
+
+                // Repositories abrufen
                 let page = 1;
                 let hasMore = true;
                 while (hasMore) {
@@ -462,7 +502,8 @@
                     hasMore = repos.length === 100;
                 }
 
-                const eventsRes = await fetch(`https://api.github.com/users/${USERNAME}/events?per_page=50`);
+                // Events abrufen (für zuletzt online)
+                const eventsRes = await fetch(`https://api.github.com/users/${USERNAME}/events?per_page=100`);
                 const events = await eventsRes.json();
 
                 renderUI(profile, events);
@@ -479,8 +520,28 @@
             }
         }
 
+        function getLastActive(events) {
+            if (events.length === 0) return null;
+            
+            // Sortiere Events nach Datum
+            const sortedEvents = events.sort((a, b) => 
+                new Date(b.created_at) - new Date(a.created_at)
+            );
+            
+            return sortedEvents[0].created_at;
+        }
+
+        function isOnline(lastActive) {
+            if (!lastActive) return false;
+            const diff = Date.now() - new Date(lastActive).getTime();
+            const hours = diff / (1000 * 60 * 60);
+            return hours < 1; // Online wenn in der letzten Stunde aktiv
+        }
+
         function renderUI(profile, events) {
             const container = document.getElementById('app');
+            const lastActive = getLastActive(events);
+            const online = isOnline(lastActive);
 
             const sortedRepos = [...allRepos].sort((a, b) =>
                 new Date(b.updated_at) - new Date(a.updated_at)
@@ -505,7 +566,44 @@
                 .sort((a, b) => b[1] - a[1])
                 .slice(0, 10);
 
+            // Rate Limit Info
+            let rateLimitHTML = '';
+            if (rateLimitData && rateLimitData.resources) {
+                const core = rateLimitData.resources.core;
+                const search = rateLimitData.resources.search;
+                const used = core.limit - core.remaining;
+                const percentage = (used / core.limit) * 100;
+                
+                rateLimitHTML = `
+                    <div class="status-item">
+                        <span>📊 API Rate Limit:</span>
+                        <strong>${used} / ${core.limit}</strong>
+                        <span>(${percentage.toFixed(1)}%)</span>
+                    </div>
+                    <div class="rate-limit-bar">
+                        <div class="rate-limit-fill" style="width: ${percentage}%;"></div>
+                    </div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">
+                        Reset: ${formatDate(new Date(core.reset * 1000))}
+                    </div>
+                `;
+            }
+
             container.innerHTML = `
+                <!-- Status Bar -->
+                <div class="status-bar">
+                    <div class="status-item">
+                        <span class="status-dot ${online ? 'online' : 'offline'}"></span>
+                        <span>${online ? 'Online' : 'Offline'}</span>
+                    </div>
+                    <div class="status-item">
+                        <span>🕐 Zuletzt aktiv:</span>
+                        <strong>${lastActive ? formatDate(lastActive) : 'Keine Daten'}</strong>
+                    </div>
+                    ${rateLimitHTML}
+                </div>
+
+                <!-- Profile Header -->
                 <div class="profile-header fade-in-up">
                     <div class="avatar-wrapper">
                         <img src="${profile.avatar_url}" alt="Avatar" class="avatar">
@@ -522,11 +620,12 @@
                             <span class="stat-item">📦 <strong>${profile.public_repos}</strong> Repos</span>
                             <span class="stat-item">👥 <strong>${profile.followers}</strong> Follower</span>
                             <span class="stat-item">👤 <strong>${profile.following}</strong> Gefolgt</span>
-                            <span class="stat-item">📅 ${formatDate(profile.created_at)}</span>
+                            <span class="stat-item">📅 Beitritt: ${formatDate(profile.created_at)}</span>
                         </div>
                     </div>
                 </div>
 
+                <!-- Suche & Filter -->
                 <div class="section fade-in-up" style="animation-delay: 0.1s;">
                     <h2>🔍 Suche & Filter</h2>
                     <div class="search-wrapper">
@@ -540,6 +639,7 @@
                     </div>
                 </div>
 
+                <!-- Repositories -->
                 <div class="section fade-in-up" style="animation-delay: 0.2s;">
                     <h2>
                         📦 Repositories
@@ -554,6 +654,7 @@
                     </div>
                 </div>
 
+                <!-- Neueste Repos -->
                 <div class="section fade-in-up" style="animation-delay: 0.3s;">
                     <h2>
                         ✨ Neueste Repos
@@ -566,6 +667,7 @@
                     </div>
                 </div>
 
+                <!-- Aktivitäten -->
                 <div class="section fade-in-up" style="animation-delay: 0.4s;">
                     <h2>
                         ⚡ Aktivitäten
@@ -590,6 +692,7 @@
                     </div>
                 </div>
 
+                <!-- Statistiken -->
                 <div class="section fade-in-up" style="animation-delay: 0.5s;">
                     <h2>
                         📊 Statistiken
@@ -743,7 +846,8 @@
                 month: '2-digit',
                 year: 'numeric',
                 hour: '2-digit',
-                minute: '2-digit'
+                minute: '2-digit',
+                second: '2-digit'
             });
         }
 
