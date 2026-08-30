@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Profil - lzwdev</title>
+    <style>
+        :root {
+            --bg-primary: #0d1117;
+            --bg-secondary: #161b22;
+            --bg-tertiary: #21262d;
+            --text-primary: #c9d1d9;
+            --text-secondary: #8b949e;
+            --accent: #58a6ff;
+            --border: #30363d;
+            --success: #3fb950;
+            --warning: #d29922;
+            --danger: #f85149;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0d1117 0%, #161b22 50%, #0d1117 100%);
+            color: var(--text-primary);
+            padding: 20px;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Animationen */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        /* Header */
+        .profile-header {
+            background: linear-gradient(135deg, #161b22 0%, #1c2128 100%);
+            border-radius: 20px;
+            padding: 35px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 35px;
+            flex-wrap: wrap;
+            border: 1px solid var(--border);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            animation: fadeInUp 0.8s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(88,166,255,0.1), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            animation: pulse 3s infinite;
+        }
+
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 3px solid var(--accent);
+            box-shadow: 0 0 30px rgba(88,166,255,0.3);
+            transition: all 0.3s;
+        }
+
+        .avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 50px rgba(88,166,255,0.5);
+        }
+
+        .online-indicator {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 20px;
+            height: 20px;
+            background: var(--success);
+            border-radius: 50%;
+            border: 3px solid var(--bg-secondary);
+            animation: pulse 2s infinite;
+        }
+
+        /* Stats */
+        .stats {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: var(--bg-primary);
+            padding: 10px 18px;
+            border-radius: 25px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+            cursor: pointer;
+            animation: fadeInUp 0.6s ease-out;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent);
+            box-shadow: 0 5px 15px rgba(88,166,255,0.2);
+            background: var(--bg-tertiary);
+        }
+
+        /* Sections */
+        .section {
+            background: var(--bg-secondary);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border);
+            animation: fadeInUp 0.7s ease-out;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .section:hover {
+            border-color: var(--border);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+
+        .section h2 {
+            color: #f0f6fc;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 8px 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(88,166,255,0.3);
+        }
+
+        .btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        /* Horizontal Scroll Container */
+        .horizontal-scroll {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 10px 5px 20px;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent) var(--bg-tertiary);
+        }
+
+        .horizontal-scroll::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .horizontal-scroll::-webkit-scrollbar-track {
+            background: var(--bg-tertiary);
+            border-radius: 10px;
+        }
+
+        .horizontal-scroll::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+
+        .horizontal-scroll .repo-card {
+            min-width: 350px;
+            max-width: 350px;
+            scroll-snap-align: start;
+        }
+
+        /* Grid Layout */
+        .repo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 20px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .repo-grid.grid-view {
+            display: grid;
+        }
+
+        .repo-grid.list-view {
+            display: block;
+        }
+
+        /* Repo Cards */
+        .repo-card {
+            background: var(--bg-primary);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid var(--border);
+            transition: all 0.3s;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .repo-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+            transform: scaleX(0);
+            transition: transform 0.3s;
+        }
+
+        .repo-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .repo-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+        }
+
+        .repo-card h3 {
+            color: var(--accent);
+            font-size: 18px;
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+
+        .repo-card:hover h3 {
+            color: #79c0ff;
+        }
+
+        /* Language Badge */
+        .language-badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 4px 10px;
+            border-radius: 15px;
+            background: var(--bg-tertiary);
+            font-size: 12px;
+            transition: all 0.3s;
+        }
+
+        .language-badge:hover {
+            background: var(--accent);
+            color: white;
+        }
+
+        /* Search Bar */
+        .search-wrapper {
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 15px 20px;
+            background: var(--bg-primary);
+            border: 2px solid var(--border);
+            border-radius: 30px;
+            color: var(--text-primary);
+            font-size: 16px;
+            outline: none;
+            transition: all 0.3s;
+        }
+
+        .search-bar:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 20px rgba(88,166,255,0.2);
+        }
+
+        /* Loading Animation */
+        .loading {
+            text-align: center;
+            padding: 50px;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 3px solid var(--border);
+            border-top: 3px solid var(--accent);
+            border-radius: 50%;
+            animation: rotate 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        /* Filter Chips */
+        .filter-chip {
+            padding: 8px 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 13px;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .filter-chip:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+            transform: scale(1.05);
+        }
+
+        .filter-chip.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .stats {
+                justify-content: center;
+            }
+            
+            .repo-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .horizontal-scroll .repo-card {
+                min-width: 280px;
+                max-width: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="app">
+        <div class="loading">
+            <div class="spinner"></div>
+            <p>⏳ Lade Profil von <strong>lzwdev</strong> ...</p>
+        </div>
+    </div>
+
+    <script>
+        const USERNAME = 'lzwdev';
+        let allRepos = [];
+        let activeLanguage = 'all';
+        let viewMode = 'scroll'; // 'scroll' oder 'grid'
+
+        async function fetchGitHubData() {
+            const container = document.getElementById('app');
+
+            try {
+                const profileRes = await fetch(`https://api.github.com/users/${USERNAME}`);
+                if (!profileRes.ok) throw new Error(`Profil nicht gefunden (${profileRes.status})`);
+                const profile = await profileRes.json();
+
+                let page = 1;
+                let hasMore = true;
+                while (hasMore) {
+                    const reposRes = await fetch(
+                        `https://api.github.com/users/${USERNAME}/repos?per_page=100&page=${page}&sort=updated`
+                    );
+                    if (!reposRes.ok) throw new Error(`Repos nicht gefunden (${reposRes.status})`);
+                    const repos = await reposRes.json();
+                    if (repos.length === 0) break;
+                    allRepos = allRepos.concat(repos);
+                    page++;
+                    hasMore = repos.length === 100;
+                }
+
+                const eventsRes = await fetch(`https://api.github.com/users/${USERNAME}/events?per_page=50`);
+                const events = await eventsRes.json();
+
+                renderUI(profile, events);
+                setupInteractions();
+
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="error" style="background: var(--danger); color: white; padding: 20px; border-radius: 15px; text-align: center;">
+                        ❌ Fehler: ${error.message}<br>
+                        <small>Überprüfe ob der Username "lzwdev" korrekt ist.</small>
+                    </div>
+                `;
+                console.error(error);
+            }
+        }
+
+        function renderUI(profile, events) {
+            const container = document.getElementById('app');
+
+            const sortedRepos = [...allRepos].sort((a, b) =>
+                new Date(b.updated_at) - new Date(a.updated_at)
+            );
+
+            const newestByCreated = [...allRepos].sort((a, b) =>
+                new Date(b.created_at) - new Date(a.created_at)
+            );
+
+            const relevantEvents = events.filter(e =>
+                ['PushEvent', 'CreateEvent', 'DeleteEvent', 'ForkEvent', 'WatchEvent', 'IssuesEvent', 'PullRequestEvent']
+                .includes(e.type)
+            );
+
+            const langMap = {};
+            allRepos.forEach(r => {
+                if (r.language) {
+                    langMap[r.language] = (langMap[r.language] || 0) + 1;
+                }
+            });
+            const topLangs = Object.entries(langMap)
+                .sort((a, b) => b[1] - a[1])
+                .slice(0, 10);
+
+            container.innerHTML = `
+                <div class="profile-header fade-in-up">
+                    <div class="avatar-wrapper">
+                        <img src="${profile.avatar_url}" alt="Avatar" class="avatar">
+                        <div class="online-indicator"></div>
+                    </div>
+                    <div class="profile-info">
+                        <h1 style="font-size: 36px; color: #f0f6fc;">${profile.name || profile.login}</h1>
+                        <div style="color: var(--text-secondary); font-size: 20px; margin-bottom: 10px;">@${profile.login}</div>
+                        ${profile.bio ? `<div style="margin: 10px 0; color: #f0f6fc;">📝 ${profile.bio}</div>` : ''}
+                        ${profile.company ? `<div style="margin: 5px 0;">🏢 ${profile.company}</div>` : ''}
+                        ${profile.location ? `<div style="margin: 5px 0;">📍 ${profile.location}</div>` : ''}
+                        ${profile.blog ? `<div style="margin: 5px 0;">🔗 <a href="${profile.blog}" target="_blank" style="color: var(--accent);">${profile.blog}</a></div>` : ''}
+                        <div class="stats">
+                            <span class="stat-item">📦 <strong>${profile.public_repos}</strong> Repos</span>
+                            <span class="stat-item">👥 <strong>${profile.followers}</strong> Follower</span>
+                            <span class="stat-item">👤 <strong>${profile.following}</strong> Gefolgt</span>
+                            <span class="stat-item">📅 ${formatDate(profile.created_at)}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section fade-in-up" style="animation-delay: 0.1s;">
+                    <h2>🔍 Suche & Filter</h2>
+                    <div class="search-wrapper">
+                        <input type="text" class="search-bar" id="searchBar" placeholder="🔍 Repositories durchsuchen...">
+                    </div>
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap;" id="languageFilters">
+                        <button class="filter-chip active" data-language="all">Alle (${allRepos.length})</button>
+                        ${Object.entries(langMap).map(([lang, count]) => `
+                            <button class="filter-chip" data-language="${lang}">${lang} (${count})</button>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <div class="section fade-in-up" style="animation-delay: 0.2s;">
+                    <h2>
+                        📦 Repositories
+                        <div style="display: flex; gap: 10px;">
+                            <button class="btn" id="toggleView" onclick="toggleViewMode()">
+                                🔄 ${viewMode === 'scroll' ? 'Grid-Ansicht' : 'Scroll-Ansicht'}
+                            </button>
+                        </div>
+                    </h2>
+                    <div id="repoContainer" class="${viewMode === 'scroll' ? 'horizontal-scroll' : 'repo-grid grid-view'}">
+                        ${renderRepoCards(sortedRepos)}
+                    </div>
+                </div>
+
+                <div class="section fade-in-up" style="animation-delay: 0.3s;">
+                    <h2>
+                        ✨ Neueste Repos
+                        <button class="btn" onclick="toggleSection('newestRepos')">Ein/Ausblenden</button>
+                    </h2>
+                    <div id="newestRepos">
+                        <div class="horizontal-scroll">
+                            ${renderRepoCards(newestByCreated.slice(0, 10))}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section fade-in-up" style="animation-delay: 0.4s;">
+                    <h2>
+                        ⚡ Aktivitäten
+                        <button class="btn" onclick="toggleSection('activities')">Ein/Ausblenden</button>
+                    </h2>
+                    <div id="activities">
+                        ${relevantEvents.length > 0 ? `
+                        <ul class="activity-list" style="list-style: none;">
+                            ${relevantEvents.slice(0, 30).map((event, index) => `
+                                <li style="padding: 15px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; animation: slideIn 0.5s ease-out; animation-delay: ${index * 0.05}s;">
+                                    <span>
+                                        <strong>${eventTypeIcon(event.type)}</strong>
+                                        <span style="color: var(--accent);">${event.repo.name}</span>
+                                        ${event.payload?.commits ? ` <span class="badge">${event.payload.commits.length} Commits</span>` : ''}
+                                        ${event.payload?.action ? ` <span class="badge">${event.payload.action}</span>` : ''}
+                                    </span>
+                                    <span style="color: var(--text-secondary); font-size: 13px;">${timeAgo(event.created_at)}</span>
+                                </li>
+                            `).join('')}
+                        </ul>
+                        ` : '<p style="color: var(--text-secondary);">Keine aktuellen Aktivitäten gefunden.</p>'}
+                    </div>
+                </div>
+
+                <div class="section fade-in-up" style="animation-delay: 0.5s;">
+                    <h2>
+                        📊 Statistiken
+                        <button class="btn" onclick="toggleSection('statistics')">Ein/Ausblenden</button>
+                    </h2>
+                    <div id="statistics">
+                        <div class="repo-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                            <div class="info-item" style="animation: fadeInUp 0.5s;">
+                                <label>Gesamt Repos</label>
+                                <value style="font-size: 24px; color: var(--accent);">${allRepos.length}</value>
+                            </div>
+                            <div class="info-item" style="animation: fadeInUp 0.5s; animation-delay: 0.1s;">
+                                <label>Stars</label>
+                                <value style="font-size: 24px; color: #f1e05a;">⭐ ${allRepos.reduce((sum, r) => sum + r.stargazers_count, 0)}</value>
+                            </div>
+                            <div class="info-item" style="animation: fadeInUp 0.5s; animation-delay: 0.2s;">
+                                <label>Forks</label>
+                                <value style="font-size: 24px; color: var(--success);">🔀 ${allRepos.reduce((sum, r) => sum + r.forks_count, 0)}</value>
+                            </div>
+                            <div class="info-item" style="animation: fadeInUp 0.5s; animation-delay: 0.3s;">
+                                <label>Größtes Repo</label>
+                                <value style="font-size: 24px;">${Math.max(...allRepos.map(r => r.size))} KB</value>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function renderRepoCards(repos) {
+            return repos.map(repo => `
+                <div class="repo-card" onclick="window.open('${repo.html_url}', '_blank')">
+                    <h3>📁 ${repo.name}</h3>
+                    ${repo.description ? `<div style="color: var(--text-secondary); margin: 10px 0; min-height: 50px;">${repo.description}</div>` : '<div style="color: #484f58; margin: 10px 0;">Keine Beschreibung</div>'}
+                    <div style="display: flex; gap: 10px; flex-wrap: wrap; margin: 10px 0;">
+                        ${repo.language ? `<span class="language-badge"><span class="language-dot" style="background:${getLangColor(repo.language)}; width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 5px;"></span>${repo.language}</span>` : ''}
+                        <span class="language-badge">⭐ ${repo.stargazers_count}</span>
+                        <span class="language-badge">🔀 ${repo.forks_count}</span>
+                    </div>
+                    <div style="font-size: 12px; color: var(--text-secondary);">
+                        <span>📅 Update: ${formatDate(repo.updated_at)}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function setupInteractions() {
+            // Suchfunktion
+            const searchBar = document.getElementById('searchBar');
+            searchBar.addEventListener('input', (e) => {
+                const searchTerm = e.target.value.toLowerCase();
+                const filteredRepos = allRepos.filter(repo => {
+                    const matchesSearch = repo.name.toLowerCase().includes(searchTerm) ||
+                                        (repo.description && repo.description.toLowerCase().includes(searchTerm));
+                    const matchesLanguage = activeLanguage === 'all' || repo.language === activeLanguage;
+                    return matchesSearch && matchesLanguage;
+                });
+                document.getElementById('repoContainer').innerHTML = renderRepoCards(filteredRepos);
+            });
+
+            // Sprachfilter
+            const filterButtons = document.querySelectorAll('.filter-chip');
+            filterButtons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterButtons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    activeLanguage = btn.dataset.language;
+                    
+                    const searchTerm = document.getElementById('searchBar').value.toLowerCase();
+                    const filteredRepos = allRepos.filter(repo => {
+                        const matchesSearch = repo.name.toLowerCase().includes(searchTerm) ||
+                                            (repo.description && repo.description.toLowerCase().includes(searchTerm));
+                        const matchesLanguage = activeLanguage === 'all' || repo.language === activeLanguage;
+                        return matchesSearch && matchesLanguage;
+                    });
+                    document.getElementById('repoContainer').innerHTML = renderRepoCards(filteredRepos);
+                });
+            });
+        }
+
+        function toggleViewMode() {
+            const container = document.getElementById('repoContainer');
+            const btn = document.getElementById('toggleView');
+            
+            if (viewMode === 'scroll') {
+                viewMode = 'grid';
+                container.className = 'repo-grid grid-view';
+                btn.innerHTML = '🔄 Scroll-Ansicht';
+            } else {
+                viewMode = 'scroll';
+                container.className = 'horizontal-scroll';
+                btn.innerHTML = '🔄 Grid-Ansicht';
+            }
+        }
+
+        function toggleSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section.style.display === 'none') {
+                section.style.display = 'block';
+                section.style.animation = 'fadeIn 0.5s ease-out';
+            } else {
+                section.style.display = 'none';
+            }
+        }
+
+        function getLangColor(lang) {
+            const colors = {
+                JavaScript: '#f1e05a',
+                Python: '#3572A5',
+                HTML: '#e34c26',
+                CSS: '#563d7c',
+                TypeScript: '#2b7489',
+                Java: '#b07219',
+                C: '#555555',
+                'C++': '#f34b7d',
+                'C#': '#178600',
+                PHP: '#4F5D95',
+                Ruby: '#701516',
+                Go: '#00ADD8',
+                Rust: '#dea584',
+                Swift: '#ffac45',
+                Kotlin: '#A97BFF',
+                Dart: '#00B4AB',
+                Shell: '#89e051',
+                Vue: '#2c3e50',
+                SCSS: '#c6538c',
+                Dockerfile: '#384d54',
+            };
+            return colors[lang] || '#8b949e';
+        }
+
+        function eventTypeIcon(type) {
+            const icons = {
+                PushEvent: '📤',
+                CreateEvent: '✨',
+                DeleteEvent: '🗑️',
+                ForkEvent: '🍴',
+                WatchEvent: '⭐',
+                IssuesEvent: '🐛',
+                PullRequestEvent: '🔀',
+                ReleaseEvent: '📦',
+                GollumEvent: '📝'
+            };
+            return icons[type] || '📌';
+        }
+
+        function formatDate(dateStr) {
+            const d = new Date(dateStr);
+            return d.toLocaleDateString('de-DE', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function timeAgo(dateStr) {
+            const diff = Date.now() - new Date(dateStr).getTime();
+            const mins = Math.floor(diff / 60000);
+            if (mins < 1) return 'gerade eben';
+            if (mins < 60) return `vor ${mins} min`;
+            const hours = Math.floor(mins / 60);
+            if (hours < 24) return `vor ${hours} h`;
+            const days = Math.floor(hours / 24);
+            if (days < 7) return `vor ${days} T`;
+            return formatDate(dateStr);
+        }
+
+        // Starte die Anwendung
+        fetchGitHubData();
+    </script>
+</body>
+</html>
